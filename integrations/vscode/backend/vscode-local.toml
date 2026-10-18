@@ -1,0 +1,76 @@
+# Use with a dedicated OPENJARVIS_HOME, without cloud-provider credentials.
+# The VS Code extension owns tool execution; the server supplies inference.
+[engine]
+default = "ollama"
+
+[intelligence]
+default_model = "qwen3.5:4b"
+preferred_engine = "ollama"
+provider = ""
+
+[server]
+host = "127.0.0.1"
+port = 8000
+agent = ""
+cors_origins = []
+
+[analytics]
+enabled = false
+choice_recorded = true
+
+[telemetry]
+enabled = false
+
+[traces]
+enabled = false
+
+[agent]
+default_agent = "simple"
+context_from_memory = false
+tools = ""
+
+[tools]
+enabled = ""
+
+[tools.storage]
+enabled = false
+
+[tools.mcp]
+enabled = false
+servers = ""
+
+[memory_files]
+soul_path = ""
+memory_path = ""
+user_path = ""
+
+[skills]
+enabled = false
+auto_discover = false
+auto_sync = false
+
+[learning]
+enabled = false
+auto_update = false
+training_enabled = false
+
+[learning.spec_search]
+enabled = false
+
+[agent_manager]
+enabled = false
+
+[sessions]
+enabled = false
+
+[channel]
+enabled = false
+
+[scheduler]
+enabled = false
+
+[digest]
+enabled = false
+
+[proactive]
+enabled = false

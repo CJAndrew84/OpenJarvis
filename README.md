@@ -127,6 +127,14 @@ See the [User Guide](https://open-jarvis.github.io/OpenJarvis/user-guide/morning
 
 Full documentation — including Docker deployment, cloud engines, development setup, and tutorials — at **[open-jarvis.github.io/OpenJarvis](https://open-jarvis.github.io/OpenJarvis/)**.
 
+## VS Code Coding Agent
+
+The [VS Code integration](integrations/vscode/README.md) adds a coding assistant
+backed by an OpenJarvis server. It supports workspace search, editor context,
+reviewed file edits and optional approved terminal commands. A dedicated backend
+profile disables analytics and automatic memory for this workflow. See the
+integration guide for installation, data boundaries and development instructions.
+
 ## Community
 
 - **GitHub:** [github.com/open-jarvis/OpenJarvis](https://github.com/open-jarvis/OpenJarvis)

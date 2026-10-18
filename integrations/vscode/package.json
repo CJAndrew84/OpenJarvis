@@ -1,0 +1,61 @@
+{
+  "name": "openjarvis-coding-agent",
+  "displayName": "OpenJarvis Coding Agent",
+  "description": "A VS Code coding assistant powered by your OpenJarvis server, with reviewed edits and terminal commands.",
+  "version": "0.1.0",
+  "publisher": "CJAndrew84",
+  "license": "Apache-2.0",
+  "repository": { "type": "git", "url": "https://github.com/CJAndrew84/OpenJarvis.git", "directory": "integrations/vscode" },
+  "engines": { "vscode": "^1.95.0", "node": ">=20" },
+  "categories": ["AI", "Other"],
+  "keywords": ["OpenJarvis", "coding", "local", "assistant"],
+  "main": "./dist/extension.js",
+  "extensionKind": ["workspace"],
+  "activationEvents": ["onView:openjarvis.chat"],
+  "capabilities": {
+    "untrustedWorkspaces": { "supported": false, "description": "The coding agent reads workspace files and can propose edits and terminal commands." },
+    "virtualWorkspaces": { "supported": false, "description": "This version requires a filesystem workspace on the extension host." }
+  },
+  "contributes": {
+    "commands": [
+      { "command": "openjarvis.open", "title": "OpenJarvis: Open Coding Agent" },
+      { "command": "openjarvis.configure", "title": "OpenJarvis: Configure Connection", "icon": "$(settings-gear)" },
+      { "command": "openjarvis.selectModel", "title": "OpenJarvis: Select Model" },
+      { "command": "openjarvis.setApiKey", "title": "OpenJarvis: Set Server API Key" },
+      { "command": "openjarvis.clearApiKey", "title": "OpenJarvis: Clear Server API Key" },
+      { "command": "openjarvis.attachSelection", "title": "OpenJarvis: Attach Selection or File" },
+      { "command": "openjarvis.newChat", "title": "OpenJarvis: New Chat", "icon": "$(add)" }
+    ],
+    "viewsContainers": { "activitybar": [{ "id": "openjarvis", "title": "OpenJarvis", "icon": "media/jarvis.svg" }] },
+    "views": { "openjarvis": [{ "type": "webview", "id": "openjarvis.chat", "name": "Coding Agent" }] },
+    "menus": {
+      "view/title": [
+        { "command": "openjarvis.newChat", "when": "view == openjarvis.chat", "group": "navigation" },
+        { "command": "openjarvis.configure", "when": "view == openjarvis.chat", "group": "navigation" }
+      ],
+      "editor/context": [{ "command": "openjarvis.attachSelection", "when": "isWorkspaceTrusted", "group": "navigation@99" }]
+    },
+    "configuration": {
+      "title": "OpenJarvis",
+      "properties": {
+        "openjarvis.serverUrl": { "type": "string", "default": "http://127.0.0.1:8000/v1", "scope": "application", "description": "OpenJarvis API base URL. Loopback refers to the extension host, including WSL/SSH hosts." },
+        "openjarvis.allowRemoteServer": { "type": "boolean", "default": false, "scope": "application", "description": "Allow a non-loopback HTTPS server. Workspace content will be sent to that server. Redirects are never followed." },
+        "openjarvis.model": { "type": "string", "default": "", "scope": "application", "description": "Model ID from OpenJarvis /v1/models. Use Select Model to choose an installed model." },
+        "openjarvis.maxTurns": { "type": "number", "default": 16, "minimum": 1, "maximum": 40, "scope": "application", "description": "Maximum model requests per task." },
+        "openjarvis.maxOutputTokens": { "type": "number", "default": 4096, "minimum": 256, "maximum": 16384, "scope": "application", "description": "Requested output token budget. OpenJarvis may increase it based on complexity." },
+        "openjarvis.requestTimeoutSeconds": { "type": "number", "default": 180, "minimum": 10, "maximum": 600, "scope": "application", "description": "Timeout per model request, including local model loading." },
+        "openjarvis.allowCommands": { "type": "boolean", "default": false, "scope": "application", "description": "Offer terminal commands to the user. Every command still requires explicit approval." }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "test": "npm run compile && node --test dist/test/core.test.js",
+    "test:host": "npm run bundle && node dist/test/runHost.js",
+    "bundle": "npm run compile && esbuild src/extension.ts --bundle --platform=node --format=cjs --target=node20 --external:vscode --outfile=dist/extension.js",
+    "vscode:prepublish": "npm run bundle",
+    "package": "vsce package --no-dependencies"
+  },
+  "dependencies": { "ignore": "^7.0.5" },
+  "devDependencies": { "@types/node": "^20.17.0", "@types/vscode": "1.95.0", "@vscode/test-electron": "^2.5.2", "@vscode/vsce": "^3.6.0", "typescript": "^5.9.3", "esbuild": "^0.25.0" }
+}

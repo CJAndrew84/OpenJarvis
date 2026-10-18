@@ -1,0 +1,15 @@
+src/**
+node_modules/**
+dist/test/**
+**/*.map
+tsconfig.json
+package-lock.json
+.vscode-test/**
+*.vsix
+scripts/**
+.gitignore
+.vscode/**
+dist/agent.js
+dist/client.js
+dist/workspace.js
+dist/protocol.js
